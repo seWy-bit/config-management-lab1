@@ -6,8 +6,12 @@ from datetime import datetime
 import csv
 
 class ShellEmulator:
-    def __init__(self, log_path=None, script_path=None):
+    def __init__(self, log_path=None, script_path=None, vfs_path=None):
         self.log_path = log_path
+        self.script_path = script_path
+        self.vfs_path = vfs_path
+        self.commands = []
+
         self.root = tk.Tk()
         self.root.title("Эмулятор - MyVFS")
         self.root.configure(bg='black')
@@ -44,10 +48,13 @@ class ShellEmulator:
         self.input_entry.pack(side='left', fill='x', expand=True)
         self.input_entry.bind('<Return>', self.process_command)
         
-        self.commands = []
-        
-        self.log_path = log_path
-        self.script_path = script_path
+        self.vfs = None
+        self.cwd = None
+        self.current_path_str = ""
+
+        if self.vfs_path:
+            self.load_vfs(self.vfs_path)
+
         self.print_welcome()
         if self.script_path:
             self.run_script(self.script_path)
@@ -68,11 +75,14 @@ class ShellEmulator:
                         self.log_event(command, args, result)
                         break
                     elif command == "ls":
-                        result = f"Команда 'ls' с аргументами: {args}"
+                        result = self.ls_vfs()
                         self.print_output(result)
-                        self.log_event(command, args, result)
+                        self.log_event(command, args, " ".join(result.split()))
                     elif command == "cd":
-                        result = f"Команда 'cd' с аргументами: {args}"
+                        if args:
+                            result = self.cd_vfs(args[0])
+                        else:
+                            result = "Ошибка: не указана директория."
                         self.print_output(result)
                         self.log_event(command, args, result)
                     elif command == "":
@@ -130,11 +140,14 @@ class ShellEmulator:
             self.log_event(command, args, result)
             self.root.quit()
         elif command == "ls":
-            result = f"Команда 'ls' с аргументами: {args}"
+            result = self.ls_vfs()
             self.print_output(result)
-            self.log_event(command, args, result)
+            self.log_event(command, args, " ".join(result.split()))
         elif command == "cd":
-            result = f"Команда 'cd' с аргументами: {args}"
+            if args:
+                result = self.cd_vfs(args[0])
+            else:
+                result = "Ошибка: не указана директория."
             self.print_output(result)
             self.log_event(command, args, result)
         elif command == "":
@@ -146,6 +159,82 @@ class ShellEmulator:
             
     def run(self):
         self.root.mainloop()
+
+    def load_vfs(self, vfs_path):
+        self.vfs = {'/': {}}
+        self.cwd = self.vfs['/']
+        self.current_path_str = "/"
+        try:
+            with open(vfs_path, 'r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    path = row['path']
+                    type = row['type']
+                    data = row['data']
+                    
+                    parts = path.split('/')
+                    current_level = self.vfs['/']
+                    
+                    for part in parts[:-1]:
+                        if part not in current_level:
+                            current_level[part] = {}
+                        current_level = current_level[part]
+                    
+                    if type == 'dir':
+                        if parts[-1] not in current_level:
+                            current_level[parts[-1]] = {}
+                    else:
+                        current_level[parts[-1]] = data
+            self.print_output(f"VFS загружена из {vfs_path}")
+        except Exception as e:
+            self.print_output(f"[ОШИБКА] Не удалось загрузить VFS: {e}")
+            self.vfs = None
+
+    def get_vfs_node(self, path_list):
+        node = self.vfs['/']
+        for part in path_list:
+            if part in node:
+                node = node[part]
+            else:
+                return None
+        return node
+
+    def ls_vfs(self):
+        if not self.vfs:
+            return "[ОШИБКА] VFS не загружена."
+        
+        items = []
+        for name, content in self.cwd.items():
+            if isinstance(content, dict):
+                items.append(f"{name}/")
+            else:
+                items.append(name)
+        return "\n".join(items) if items else ""
+
+    def cd_vfs(self, folder):
+        if not self.vfs:
+            return "[ОШИБКА] VFS не загружена."
+
+        if folder == "..":
+            if self.current_path_str != "/":
+                path_list = self.current_path_str.strip('/').split('/')
+                path_list.pop()
+                self.current_path_str = "/" + "/".join(path_list)
+                self.cwd = self.get_vfs_node(path_list)
+            return f"Текущая директория: {self.current_path_str}"
+
+        
+        path_list = self.current_path_str.strip('/').split('/') if self.current_path_str != "/" else []
+        
+        temp_node = self.get_vfs_node(path_list)
+
+        if folder in temp_node and isinstance(temp_node[folder], dict):
+            path_list.append(folder)
+            self.current_path_str = "/" + "/".join(path_list)
+            self.cwd = self.get_vfs_node(path_list)
+            return f"Текущая директория: {self.current_path_str}"
+        else:
+            return f"Ошибка: директория '{folder}' не найдена."
 
 def main():
     parser = argparse.ArgumentParser(description="Эмулятор командной оболочки MyVFS")
@@ -159,7 +248,7 @@ def main():
     print(f"Log: {args.log}")
     print(f"Script: {args.script}")
 
-    emulator = ShellEmulator(log_path=args.log, script_path=args.script)
+    emulator = ShellEmulator(vfs_path=args.vfs, log_path=args.log, script_path=args.script)
     emulator.run()
 
 if __name__ == "__main__":

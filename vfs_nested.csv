@@ -1,0 +1,8 @@
+path,type,data
+/,dir,
+/etc,dir,
+/etc/conf,dir,
+/etc/conf/settings.ini,file,setting=1
+/home,dir,
+/home/user,dir,
+/home/user/notes.txt,file,User notes

@@ -1,0 +1,18 @@
+2025-10-02 19:37:52,ls,,image.jpg document.pdf
+2025-10-02 19:37:52,cd,folder1,Ошибка: директория 'folder1' не найдена.
+2025-10-02 19:37:52,ls,,image.jpg document.pdf
+2025-10-02 19:37:52,cd,..,Текущая директория: /
+2025-10-02 19:37:52,ls,,image.jpg document.pdf
+2025-10-02 19:37:52,cd,non_existent_dir,Ошибка: директория 'non_existent_dir' не найдена.
+2025-10-02 19:37:52,ls,,image.jpg document.pdf
+2025-10-02 19:37:52,exit,,Выход из эмулятора
+2025-10-02 19:39:21,ls,,image.jpg document.pdf
+2025-10-02 19:39:35,exit,,Выход из эмулятора
+2025-10-02 19:40:15,ls,,image.jpg document.pdf
+2025-10-02 19:40:15,cd,folder1,Ошибка: директория 'folder1' не найдена.
+2025-10-02 19:40:15,ls,,image.jpg document.pdf
+2025-10-02 19:40:15,cd,..,Текущая директория: /
+2025-10-02 19:40:15,ls,,image.jpg document.pdf
+2025-10-02 19:40:15,cd,non_existent_dir,Ошибка: директория 'non_existent_dir' не найдена.
+2025-10-02 19:40:15,ls,,image.jpg document.pdf
+2025-10-02 19:40:15,exit,,Выход из эмулятора
