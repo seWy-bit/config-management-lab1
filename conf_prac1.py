@@ -99,6 +99,10 @@ class ShellEmulator:
                         result = self.wc(args)
                         self.print_output(result)
                         self.log_event(command, args, "wc")
+                    elif command == "cp":
+                        result = self.cp(args)
+                        self.print_output(result)
+                        self.log_event(command, args, result)
                     elif command == "":
                         continue
                     else:
@@ -177,6 +181,10 @@ class ShellEmulator:
             result = self.wc(args)
             self.print_output(result)
             self.log_event(command, args, "wc")
+        elif command == "cp":
+            result = self.cp(args)
+            self.print_output(result)
+            self.log_event(command, args, "cp")
         elif command == "":
             pass
         else:
@@ -257,6 +265,53 @@ class ShellEmulator:
             node = node[comp]
             parts.append(comp)
         return node
+    
+    def get_parent_node_and_name(self, path):
+        if not path:
+            return None, ''
+        if path.startswith('/'):
+            parts = [p for p in path.strip('/').split('/') if p]
+        else:
+            parts = [p for p in self.current_path_str.strip('/').split('/') if p] if self.current_path_str != "/" else []
+            parts += [p for p in path.split('/') if p]
+        if not parts:
+            return self.vfs['/'], ''
+        parent_parts = parts[:-1]
+        name = parts[-1]
+        parent = self.get_vfs_node(parent_parts) if parent_parts else self.vfs['/']
+        return parent, name
+
+    def cp(self, args):
+        if not args or len(args) < 2:
+            return "cp: требуется источник и назначение"
+        src, dst = args[0], args[1]
+        src_node = self.resolve_node_from_path(src)
+        if src_node is None:
+            return f"cp: источник '{src}' не найден"
+        parent_dst, name_dst = self.get_parent_node_and_name(dst)
+        if parent_dst is None:
+            return f"cp: путь назначения недоступен: {dst}"
+        dst_node = self.resolve_node_from_path(dst)
+        if dst_node is not None and isinstance(dst_node, dict):
+            target_parent = dst_node
+            name = src.strip('/').split('/')[-1]
+        else:
+            target_parent = parent_dst
+            name = name_dst
+        if not isinstance(target_parent, dict):
+            return f"cp: назначение '{dst}' не является директорией"
+        def clone(node):
+            if isinstance(node, dict):
+                new = {}
+                for k, v in node.items():
+                    new[k] = clone(v)
+                return new
+            else:
+                return node
+        if isinstance(src_node, dict) and (dst_node is not None and not isinstance(dst_node, dict)):
+            return f"cp: нельзя копировать директорию в файл '{dst}'"
+        target_parent[name] = clone(src_node)
+        return f"cp: '{src}' -> '{dst}'"
     
     def tree(self, args):
         path = args[0] if args else ""

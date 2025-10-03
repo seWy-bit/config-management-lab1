@@ -1,34 +1,65 @@
-2025-10-02 19:37:00,ls,,/
-2025-10-02 19:37:00,cd,folder1,Ошибка: директория 'folder1' не найдена.
-2025-10-02 19:37:00,ls,,/
-2025-10-02 19:37:00,cd,..,Текущая директория: /
-2025-10-02 19:37:00,ls,,/
-2025-10-02 19:37:00,cd,non_existent_dir,Ошибка: директория 'non_existent_dir' не найдена.
-2025-10-02 19:37:00,ls,,/
-2025-10-02 19:37:00,exit,,Выход из эмулятора
-2025-10-02 19:37:23,cd,home,Ошибка: директория 'home' не найдена.
-2025-10-02 19:37:31,cd,/home,Ошибка: директория '/home' не найдена.
-2025-10-02 19:37:42,cd,etc,Ошибка: директория 'etc' не найдена.
-2025-10-02 19:37:52,exit,,Выход из эмулятора
-2025-10-02 19:40:12,ls,,/
-2025-10-02 19:40:12,cd,folder1,Ошибка: директория 'folder1' не найдена.
-2025-10-02 19:40:12,ls,,/
-2025-10-02 19:40:12,cd,..,Текущая директория: /
-2025-10-02 19:40:12,ls,,/
-2025-10-02 19:40:12,cd,non_existent_dir,Ошибка: директория 'non_existent_dir' не найдена.
-2025-10-02 19:40:12,ls,,/
-2025-10-02 19:40:12,exit,,Выход из эмулятора
-2025-10-03 13:14:24,ls,,etc/ home/
-2025-10-03 13:14:24,cd,/etc,Текущая директория: /etc
-2025-10-03 13:14:24,ls,,conf/
-2025-10-03 13:14:24,cd,settings.ini,Ошибка: директория 'settings.ini' не найдена.
-2025-10-03 13:14:24,echo,"""ERROR_CHECK: cd to file should have failed""",echo
-2025-10-03 13:14:24,cd,..,Текущая директория: /
-2025-10-03 13:14:24,cd,/home/user,Текущая директория: /home/user
-2025-10-03 13:14:24,echo,New note > new.txt,echo
-2025-10-03 13:14:24,ls,,notes.txt new.txt
-2025-10-03 13:14:24,wc,new.txt,wc
-2025-10-03 13:14:24,cd,/nope,Ошибка: директория '/nope' не найдена.
-2025-10-03 13:14:24,echo,"""ERROR_CHECK: cd to /nope should have failed""",echo
-2025-10-03 13:14:24,exit,,Выход из эмулятора
-2025-10-03 13:16:41,exit,,Выход из эмулятора
+2025-10-03 15:36:37,ls,,etc/ home/
+2025-10-03 15:36:37,tree,/,tree
+2025-10-03 15:36:37,cd,/etc/conf,Текущая директория: /etc/conf
+2025-10-03 15:36:37,wc,settings.ini,wc
+2025-10-03 15:36:37,cd,settings.ini,Ошибка: 'settings.ini' не является директорией.
+2025-10-03 15:36:37,echo,ERROR_CHECK: cd to file should have failed,echo
+2025-10-03 15:36:37,cd,/home/user,Текущая директория: /home/user
+2025-10-03 15:36:37,echo,NewNote > new.txt,echo
+2025-10-03 15:36:37,wc,new.txt,wc
+2025-10-03 15:36:37,cp,/etc /home/user/notes.txt,Ошибка: неизвестная команда 'cp'
+2025-10-03 15:36:39,exit,,Выход из эмулятора
+2025-10-03 15:36:57,ls,,etc/ home/
+2025-10-03 15:36:57,tree,/,tree
+2025-10-03 15:36:57,cd,/etc/conf,Текущая директория: /etc/conf
+2025-10-03 15:36:57,wc,settings.ini,wc
+2025-10-03 15:36:57,cd,settings.ini,Ошибка: 'settings.ini' не является директорией.
+2025-10-03 15:36:57,echo,ERROR_CHECK: cd to file should have failed,echo
+2025-10-03 15:36:57,cd,/home/user,Текущая директория: /home/user
+2025-10-03 15:36:57,echo,NewNote > new.txt,echo
+2025-10-03 15:36:57,wc,new.txt,wc
+2025-10-03 15:36:57,cp,/etc /home/user/notes.txt,Ошибка: неизвестная команда 'cp'
+2025-10-03 15:37:01,exit,,Выход из эмулятора
+2025-10-03 15:40:05,ls,,etc/ home/
+2025-10-03 15:40:05,tree,/,tree
+2025-10-03 15:40:05,cd,/etc/conf,Текущая директория: /etc/conf
+2025-10-03 15:40:05,wc,settings.ini,wc
+2025-10-03 15:40:05,cd,settings.ini,Ошибка: 'settings.ini' не является директорией.
+2025-10-03 15:40:05,echo,ERROR_CHECK: cd to file should have failed,echo
+2025-10-03 15:40:05,cd,/home/user,Текущая директория: /home/user
+2025-10-03 15:40:05,echo,NewNote > new.txt,echo
+2025-10-03 15:40:05,wc,new.txt,wc
+2025-10-03 15:40:05,cp,/etc /home/user/notes.txt,Ошибка: неизвестная команда 'cp'
+2025-10-03 15:41:14,ls,,etc/ home/
+2025-10-03 15:41:14,tree,/,tree
+2025-10-03 15:41:14,cd,/etc/conf,Текущая директория: /etc/conf
+2025-10-03 15:41:14,wc,settings.ini,wc
+2025-10-03 15:41:14,cd,settings.ini,Ошибка: 'settings.ini' не является директорией.
+2025-10-03 15:41:14,echo,ERROR_CHECK: cd to file should have failed,echo
+2025-10-03 15:41:14,cd,/home/user,Текущая директория: /home/user
+2025-10-03 15:41:14,echo,NewNote > new.txt,echo
+2025-10-03 15:41:14,wc,new.txt,wc
+2025-10-03 15:41:14,cp,/etc /home/user/notes.txt,Ошибка: неизвестная команда 'cp'
+2025-10-03 15:47:19,ls,,etc/ home/
+2025-10-03 15:47:19,tree,/,tree
+2025-10-03 15:47:19,cd,/etc/conf,Текущая директория: /etc/conf
+2025-10-03 15:47:19,wc,settings.ini,wc
+2025-10-03 15:47:19,cd,settings.ini,Ошибка: 'settings.ini' не является директорией.
+2025-10-03 15:47:19,echo,ERROR_CHECK: cd to file should have failed,echo
+2025-10-03 15:47:19,cd,/home/user,Текущая директория: /home/user
+2025-10-03 15:47:19,echo,NewNote > new.txt,echo
+2025-10-03 15:47:19,wc,new.txt,wc
+2025-10-03 15:47:19,cp,/etc /home/user/notes.txt,cp: нельзя копировать директорию в файл '/home/user/notes.txt'
+2025-10-03 15:47:19,exit,,Выход из эмулятора
+2025-10-03 15:47:47,exit,,Выход из эмулятора
+2025-10-03 16:28:08,ls,,etc/ home/
+2025-10-03 16:28:08,tree,/,tree
+2025-10-03 16:28:08,cd,/etc/conf,Текущая директория: /etc/conf
+2025-10-03 16:28:08,wc,settings.ini,wc
+2025-10-03 16:28:08,cd,settings.ini,Ошибка: 'settings.ini' не является директорией.
+2025-10-03 16:28:08,echo,ERROR_CHECK: cd to file should have failed,echo
+2025-10-03 16:28:08,cd,/home/user,Текущая директория: /home/user
+2025-10-03 16:28:08,echo,NewNote > new.txt,echo
+2025-10-03 16:28:08,wc,new.txt,wc
+2025-10-03 16:28:08,cp,/etc /home/user/notes.txt,cp: нельзя копировать директорию в файл '/home/user/notes.txt'
+2025-10-03 16:28:08,exit,,Выход из эмулятора
