@@ -1,0 +1,6 @@
+path,type,data
+/,dir,
+/readme.txt,file,Hello VFS
+/dirA,dir,
+/dirA/a.txt,file,Alpha
+/dirA/b.txt,file,Beta
